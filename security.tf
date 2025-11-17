@@ -8,6 +8,7 @@ resource "oci_core_security_list" "vpn_sl" {
     protocol    = "all"
   }
 
+  # SSH
   ingress_security_rules {
     protocol = "6"
     source   = "0.0.0.0/0"
@@ -17,6 +18,7 @@ resource "oci_core_security_list" "vpn_sl" {
     }
   }
 
+  # HTTPS
   ingress_security_rules {
     protocol = "6"
     source   = "0.0.0.0/0"
@@ -26,6 +28,7 @@ resource "oci_core_security_list" "vpn_sl" {
     }
   }
 
+  # OpenVPN Admin
   ingress_security_rules {
     protocol = "6"
     source   = "0.0.0.0/0"
@@ -35,6 +38,7 @@ resource "oci_core_security_list" "vpn_sl" {
     }
   }
 
+  # OpenVPN UDP
   ingress_security_rules {
     protocol = "17"
     source   = "0.0.0.0/0"
