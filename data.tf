@@ -6,10 +6,6 @@ data "oci_core_images" "oracle_linux" {
   compartment_id   = var.compartment_id
   operating_system = "Oracle Linux"
   state           = "AVAILABLE"
-  
-  filter {
-    name   = "display_name"
-    values = ["Oracle-Linux-8.*-aarch64-.*"]
-    regex  = true
-  }
+  sort_by         = "TIMECREATED"
+  sort_order      = "DESC"
 }
