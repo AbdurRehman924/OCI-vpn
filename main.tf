@@ -11,14 +11,18 @@ provider "oci" {
   region = var.region
 }
 
+locals {
+  compartment_id = var.compartment_id != "" ? var.compartment_id : var.tenancy_ocid
+}
+
 # Get availability domains
 data "oci_identity_availability_domains" "ads" {
-  compartment_id = var.compartment_id
+  compartment_id = local.compartment_id
 }
 
 # Get OpenVPN image
 data "oci_core_images" "openvpn_images" {
-  compartment_id           = var.compartment_id
+  compartment_id           = local.compartment_id
   operating_system         = "OpenVPN Access Server"
   operating_system_version = "2.14.3"
   shape                    = var.instance_shape
@@ -27,21 +31,21 @@ data "oci_core_images" "openvpn_images" {
 
 # Create VCN
 resource "oci_core_vcn" "vpn_vcn" {
-  compartment_id = var.compartment_id
+  compartment_id = local.compartment_id
   cidr_blocks    = ["10.0.0.0/16"]
   display_name   = "vpn-vcn"
 }
 
 # Create Internet Gateway
 resource "oci_core_internet_gateway" "vpn_igw" {
-  compartment_id = var.compartment_id
+  compartment_id = local.compartment_id
   vcn_id         = oci_core_vcn.vpn_vcn.id
   display_name   = "vpn-igw"
 }
 
 # Create Route Table
 resource "oci_core_route_table" "vpn_rt" {
-  compartment_id = var.compartment_id
+  compartment_id = local.compartment_id
   vcn_id         = oci_core_vcn.vpn_vcn.id
   display_name   = "vpn-rt"
 
@@ -53,7 +57,7 @@ resource "oci_core_route_table" "vpn_rt" {
 
 # Create Security List
 resource "oci_core_security_list" "vpn_sl" {
-  compartment_id = var.compartment_id
+  compartment_id = local.compartment_id
   vcn_id         = oci_core_vcn.vpn_vcn.id
   display_name   = "vpn-sl"
 
@@ -101,7 +105,7 @@ resource "oci_core_security_list" "vpn_sl" {
 
 # Create Subnet
 resource "oci_core_subnet" "vpn_subnet" {
-  compartment_id      = var.compartment_id
+  compartment_id      = local.compartment_id
   vcn_id              = oci_core_vcn.vpn_vcn.id
   cidr_block          = "10.0.1.0/24"
   display_name        = "vpn-subnet"
@@ -112,7 +116,7 @@ resource "oci_core_subnet" "vpn_subnet" {
 
 # Create OpenVPN Instance
 resource "oci_core_instance" "openvpn_instance" {
-  compartment_id      = var.compartment_id
+  compartment_id      = local.compartment_id
   availability_domain = data.oci_identity_availability_domains.ads.availability_domains[0].name
   display_name        = "openvpn-server"
   shape               = var.instance_shape

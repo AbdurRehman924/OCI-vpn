@@ -4,9 +4,15 @@ variable "region" {
   default     = "us-phoenix-1"
 }
 
-variable "compartment_id" {
-  description = "OCI compartment OCID"
+variable "tenancy_ocid" {
+  description = "OCI tenancy OCID"
   type        = string
+}
+
+variable "compartment_id" {
+  description = "OCI compartment OCID (optional, defaults to tenancy)"
+  type        = string
+  default     = ""
 }
 
 variable "instance_shape" {
