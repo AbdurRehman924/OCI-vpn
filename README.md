@@ -1,40 +1,34 @@
 # OpenVPN Access Server on Oracle Cloud Infrastructure
 
-This Terraform project deploys an OpenVPN Access Server instance on OCI.
+Deploy OpenVPN Access Server on OCI free tier using Terraform.
 
 ## Prerequisites
 
-1. OCI CLI configured with proper credentials
+1. OCI CLI configured (`oci setup config`)
 2. Terraform installed
 3. SSH key pair generated
 
-## Deployment
+## Quick Deploy
 
-1. Copy the example variables file:
+1. **Configure variables:**
    ```bash
    cp terraform.tfvars.example terraform.tfvars
+   # Edit terraform.tfvars with your tenancy OCID
    ```
 
-2. Edit `terraform.tfvars` with your values:
-   - `compartment_id`: Your OCI compartment OCID
-   - `region`: Your preferred OCI region
-   - `ssh_public_key_path`: Path to your SSH public key
-
-3. Initialize and deploy:
+2. **Deploy:**
    ```bash
    terraform init
-   terraform plan
    terraform apply
    ```
 
 ## Access
 
-After deployment:
-- Admin interface: `https://<public_ip>:943/admin`
-- Client interface: `https://<public_ip>:943`
-- SSH access: `ssh openvpnas@<public_ip>`
+- **Admin:** `https://<public_ip>:943/admin`
+- **Client:** `https://<public_ip>:943`
+- **SSH:** `ssh openvpnas@<public_ip>`
 
-Default admin credentials: `openvpn` / `<instance_id>`
+Default admin: `openvpn` / `<instance_id>`
 
 ## Cleanup
 
