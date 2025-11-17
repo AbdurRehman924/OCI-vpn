@@ -1,5 +1,5 @@
 resource "oci_core_security_list" "vpn_sl" {
-  compartment_id = local.compartment_id
+  compartment_id = var.compartment_id
   vcn_id         = oci_core_vcn.vpn_vcn.id
   display_name   = "vpn-sl"
 

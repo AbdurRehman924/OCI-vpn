@@ -1,17 +1,17 @@
 resource "oci_core_vcn" "vpn_vcn" {
-  compartment_id = local.compartment_id
+  compartment_id = var.compartment_id
   cidr_blocks    = ["10.0.0.0/16"]
   display_name   = "vpn-vcn"
 }
 
 resource "oci_core_internet_gateway" "vpn_igw" {
-  compartment_id = local.compartment_id
+  compartment_id = var.compartment_id
   vcn_id         = oci_core_vcn.vpn_vcn.id
   display_name   = "vpn-igw"
 }
 
 resource "oci_core_route_table" "vpn_rt" {
-  compartment_id = local.compartment_id
+  compartment_id = var.compartment_id
   vcn_id         = oci_core_vcn.vpn_vcn.id
   display_name   = "vpn-rt"
 
@@ -22,7 +22,7 @@ resource "oci_core_route_table" "vpn_rt" {
 }
 
 resource "oci_core_subnet" "vpn_subnet" {
-  compartment_id      = local.compartment_id
+  compartment_id      = var.compartment_id
   vcn_id              = oci_core_vcn.vpn_vcn.id
   cidr_block          = "10.0.1.0/24"
   display_name        = "vpn-subnet"

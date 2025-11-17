@@ -1,6 +1,5 @@
 # Copy this file to terraform.tfvars and fill in your values
 
 region         = "us-phoenix-1"
-tenancy_ocid   = "ocid1.tenancy.oc1..your-tenancy-id-here"
-compartment_id = ""  # Leave empty to use tenancy as compartment
+compartment_id = "ocid1.tenancy.oc1..your-tenancy-id-here"  # Use tenancy OCID or compartment OCID
 ssh_public_key_path = "~/.ssh/id_rsa.pub"
