@@ -11,10 +11,20 @@ resource "oci_core_instance" "openvpn_instance" {
 
   source_details {
     source_type = "image"
-    source_id   = data.oci_core_images.openvpn_images.images[0].id
+    source_id   = data.oci_core_images.oracle_linux.images[0].id
   }
 
   metadata = {
     ssh_authorized_keys = file(var.ssh_public_key_path)
+    user_data = base64encode(<<-EOF
+      #!/bin/bash
+      yum update -y
+      yum install -y wget
+      wget https://as-repository.openvpn.net/as-repo-centos8.rpm
+      rpm -Uvh as-repo-centos8.rpm
+      yum install -y openvpn-as
+      /usr/local/openvpn_as/bin/ovpn-init --batch
+      EOF
+    )
   }
 }
